@@ -1,8 +1,16 @@
+스트림릿 배포 완료 하였습니다! 
+https://share.streamlit.io/phu92/solar_db/solar2.py
+
+
+@해당 프로그램은 배포용 DB버전 입니다. 로컬버젼은 https://github.com/phu92/GIS_hackathon 를 이용해주세요@
+
 @본 문서는 해당 파일의 설치와 기능 설명으로 구성되어있습니다.@
+
+craw2.py를 먼저 실행하여 DB를 저장해주세요
 
 *anaconda3와 VSC(visual studio code) 및 파이썬 설치 필수
 
-해당 깃을 클론하거나 폴더에 저장하신 후 git clone https://github.com/phu92/GIS_hackathon
+해당 깃을 클론하거나 폴더에 저장하신 후 git clone https://github.com/phu92/solar_db
 
 1. VSC에서 F1키 누른 후 Select Interpreter 검색
 	목록에서 아나콘다 환경의 파이썬 선택

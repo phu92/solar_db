@@ -45,7 +45,7 @@ if choice == '전국':
         chart_df = chart_df.reset_index(drop = True)
         chart_df = chart_df.astype(float)
         st.area_chart(chart_df,width=720)
-
+        st.write("0시부터 24시간 기준 데이터입니다.")
         chart_df2 = my_df.iloc[:,2]
         chart_df2 = chart_df2.reset_index(drop = True)
         chart_df2 = chart_df2.astype(float)
