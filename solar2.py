@@ -36,7 +36,7 @@ if choice != '지역을 선택해주세요':
     with st.spinner('태양광 데이터를 불러오는 중 입니다.'):
         from db import *
 if choice == '전국':
-    my_df = pd.read_csv("/app/database\my_df.csv")
+    my_df = pd.read_csv("my_df.csv")
     
     csv_conv = my_df.to_csv().encode('utf-8-sig')
     all_solar = my_df.iloc[23][1]
