@@ -2,7 +2,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import SessionState
 import tensorflow as tf
 from keras.models import load_model
 from tensorflow import keras
@@ -10,7 +9,7 @@ from keras.preprocessing import image
 import time
 pd.options.display.float_format = '{:.2f}'.format
 # https://ibb.co/sqzfGhf
-st.image('images\solar-park-g59755c796_1280.jpg')
+st.image('\app\images\solar-park-g59755c796_1280.jpg')
 st.write('')
 st.write('')
 #========================태양광 불러오기==============================
@@ -37,7 +36,7 @@ if choice != '지역을 선택해주세요':
     with st.spinner('태양광 데이터를 불러오는 중 입니다.'):
         from db import *
 if choice == '전국':
-    my_df = pd.read_csv("database\my_df.csv")
+    my_df = pd.read_csv("/app/database\my_df.csv")
     
     csv_conv = my_df.to_csv().encode('utf-8-sig')
     all_solar = my_df.iloc[23][1]
