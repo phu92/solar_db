@@ -37,9 +37,10 @@ if choice != '지역을 선택해주세요':
         from db import *
 if choice == '전국':
     my_df = pd.read_csv("my_df.csv")
-    
+    my_df2 = my_df
     csv_conv = my_df.to_csv().encode('utf-8-sig')
     all_solar = my_df.iloc[23][1]
+
     if st.button('시각 데이터 확인'):
         chart_df = my_df.iloc[:,1]
         chart_df = chart_df.reset_index(drop = True)
@@ -50,7 +51,7 @@ if choice == '전국':
         chart_df2 = chart_df2.reset_index(drop = True)
         chart_df2 = chart_df2.astype(float)
         st.line_chart(chart_df2,width=720)
-    st.dataframe(my_df)
+    st.write(my_df2)
 
     if st.button('탄소배출량 계산!'):
         st.write('========================================================')
