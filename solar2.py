@@ -50,8 +50,6 @@ if choice == '전국':
         chart_df2 = chart_df2.reset_index(drop = True)
         chart_df2 = chart_df2.astype(float)
         st.line_chart(chart_df2,width=720)
-    st.dataframe(my_df)
-
     if st.button('탄소배출량 계산!'):
         st.write('========================================================')
         st.write(f'오늘 전국의 태양광 누적 발전 예상량은 {all_solar}KWh 입니다.')
@@ -59,6 +57,8 @@ if choice == '전국':
         st.write(f'30년생 소나무 {int((all_solar*0.424)/6.6)} 그루가 1년 동안 흡수해야하는 양입니다.')
         st.write(f'태양광 발전으로 오늘 하루 탄소발생량 약 {np.round(np.round(all_solar*0.424,2) - np.round(all_solar*0.424/8.33,2),2)}Kg을 절감했습니다.')
         st.write('========================================================')
+    st.dataframe(my_df)
+
     st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '제주':
     제주 = pd.read_csv('제주.csv', header=None, float_precision='round_trip')
@@ -185,6 +185,7 @@ if choice == '충남':
     csv_conv = 충남.to_csv().encode('utf-8-sig')
     충남 = 충남.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
     충남 = 충남.drop(index=0)
+    solar_cal(충남)
     st.dataframe(충남)
     st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '충북':
