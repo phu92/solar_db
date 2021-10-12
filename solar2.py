@@ -28,26 +28,25 @@ def solar_cal(sol_cal):
         st.write(f'해당 지역의 오늘 태양광 누적 발전 예상량은 {solar_power}KWh 입니다.')
         st.write(f'한국 전력의 전력 생산 1KWh당 탄소발생량으로 환산하면{np.round(solar_power*0.424,2)}Kg 입니다')
         st.write(f'30년생 소나무 {int((solar_power*0.424)/6.6)} 그루가 1년 동안 흡수해야하는 양입니다.')
-        st.write(f'태양광 발전이 오늘 하루 탄소발생량 약 {np.round(np.round(solar_power*0.424,2) - np.round(solar_power*0.424/8.33,2),2)}Kg을 절감했습니다.')
+        st.write(f'태양광 발전으로 오늘 하루 탄소발생량 약 {np.round(np.round(solar_power*0.424,2) - np.round(solar_power*0.424/8.33,2),2)}Kg을 절감했습니다.')
         st.write('========================================================')
-    return 1
+    return sol_cal
     
-if choice != '지역을 선택해주세요':
-    with st.spinner('태양광 데이터를 불러오는 중 입니다.'):
-        from db import *
 if choice == '전국':
     my_df = pd.read_csv('my_df.csv', header=None, float_precision='round_trip')
+    my_df = my_df.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    my_df = my_df.drop(index=0)
     my_df2 = pd.read_csv('my_df.csv')
     csv_conv = my_df2.to_csv().encode('utf-8-sig')
-    all_solar = my_df2.iloc[23][2]
+    all_solar = my_df2.iloc[23][1]
 
     if st.button('시각 데이터 확인'):
-        chart_df = my_df2.iloc[:,1]
+        chart_df = my_df.iloc[:,1]
         chart_df = chart_df.reset_index(drop = True)
         chart_df = chart_df.astype(float)
         st.area_chart(chart_df,width=720)
 
-        chart_df2 = my_df2.iloc[:,2]
+        chart_df2 = my_df.iloc[:,2]
         chart_df2 = chart_df2.reset_index(drop = True)
         chart_df2 = chart_df2.astype(float)
         st.line_chart(chart_df2,width=720)
@@ -58,130 +57,147 @@ if choice == '전국':
         st.write(f'오늘 전국의 태양광 누적 발전 예상량은 {all_solar}KWh 입니다.')
         st.write(f'한국 전력의 전력 생산 1KWh당 탄소발생량으로 환산하면{np.round(all_solar*0.424,2)}Kg 입니다')
         st.write(f'30년생 소나무 {int((all_solar*0.424)/6.6)} 그루가 1년 동안 흡수해야하는 양입니다.')
-        st.write(f'태양광 발전이 오늘 하루 탄소발생량 약 {np.round(np.round(all_solar*0.424,2) - np.round(all_solar*0.424/8.33,2),2)}Kg을 절감했습니다.')
+        st.write(f'태양광 발전으로 오늘 하루 탄소발생량 약 {np.round(np.round(all_solar*0.424,2) - np.round(all_solar*0.424/8.33,2),2)}Kg을 절감했습니다.')
         st.write('========================================================')
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '제주':
     제주 = pd.read_csv('제주.csv', header=None, float_precision='round_trip')
     csv_conv = 제주.to_csv().encode('utf-8-sig')
-    st.dataframe(제주)
+    제주 = 제주.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    제주 = 제주.drop(index=0)
     solar_cal(제주)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(제주)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '경기도':
     경기 = pd.read_csv('경기.csv', header=None, float_precision='round_trip')
     csv_conv = 경기.to_csv().encode('utf-8-sig')
-    st.dataframe(경기)
+    경기 = 경기.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    경기 = 경기.drop(index=0)    
     solar_cal(경기)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(경기)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '강원도':
     강원 = pd.read_csv('강원.csv', header=None, float_precision='round_trip')
     csv_conv = 강원.to_csv().encode('utf-8-sig')
-    st.dataframe(강원)
+    강원 = 강원.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    강원 = 강원.drop(index=0)
     solar_cal(강원)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(강원)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '경북':
     경북 = pd.read_csv('경북.csv', header=None, float_precision='round_trip')
     csv_conv = 경북.to_csv().encode('utf-8-sig')
+    경북 = 경북.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    경북 = 경북.drop(index=0)    
+    solar_cal(경북)
     st.dataframe(경북)
-    solar_cal(경북)    
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '경남':
     경남 = pd.read_csv('경남.csv', header=None, float_precision='round_trip')
     csv_conv = 경남.to_csv().encode('utf-8-sig')
-    st.dataframe(경남)
+    경나 = 경남.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    경남 = 경남.drop(index=0)
     solar_cal(경남)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(경남)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '전북':
     전북 = pd.read_csv('전북.csv', header=None, float_precision='round_trip')
     csv_conv = 전북.to_csv().encode('utf-8-sig')
-    st.dataframe(전북)
+    전북 = 전북.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    전북 = 전북.drop(index=0)
     solar_cal(전북)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(전북)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '전남':
     전남 = pd.read_csv('전남.csv', header=None, float_precision='round_trip')
     csv_conv = 전남.to_csv().encode('utf-8-sig')
-    st.dataframe(전남)
+    전남 = 전남.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    전남 = 전남.drop(index=0)
     solar_cal(전남)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(전남)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '울산':
     울산 = pd.read_csv('울산.csv', header=None, float_precision='round_trip')
     csv_conv = 울산.to_csv().encode('utf-8-sig')
-    st.dataframe(울산)
+    울산 = 울산.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    울산 = 울산.drop(index=0)
     solar_cal(울산)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(울산)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '인천':
     인천 = pd.read_csv('인천.csv', header=None, float_precision='round_trip')
     csv_conv = 인천.to_csv().encode('utf-8-sig')
-    st.dataframe(인천)
+    인천 = 인천.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    인천 = 인천.drop(index=0)
     solar_cal(인천)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(인천)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '대구':
     대구 = pd.read_csv('대구.csv', header=None, float_precision='round_trip')
     csv_conv = 대구.to_csv().encode('utf-8-sig')
-    st.dataframe(대구)
+    대구 = 대구.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    대구 = 대구.drop(index=0)
     solar_cal(대구)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(대구)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '대전':
     대전 = pd.read_csv('대전.csv', header=None, float_precision='round_trip')
     csv_conv = 대전.to_csv().encode('utf-8-sig')
-    st.dataframe(대전)
     solar_cal(대전)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    대전 = 대전.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    대전 = 대전.drop(index=0)
+    st.dataframe(대전)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '부산':
     부산 = pd.read_csv('부산.csv', header=None, float_precision='round_trip')
     csv_conv = 부산.to_csv().encode('utf-8-sig')
-    st.dataframe(부산)
     solar_cal(부산)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    부산 = 부산.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    부산 = 부산.drop(index=0)
+    st.dataframe(부산)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '광주':
     광주 = pd.read_csv('광주.csv', header=None, float_precision='round_trip')
     csv_conv = 광주.to_csv().encode('utf-8-sig')
-    st.dataframe(광주)
+    광주 = 광주.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    광주 = 광주.drop(index=0)
     solar_cal(광주)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(광주)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '서울':
     서울 = pd.read_csv('서울.csv', header=None, float_precision='round_trip')
     csv_conv = 서울.to_csv().encode('utf-8-sig')
-    st.dataframe(서울)
+    서울 = 서울.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    서울 = 서울.drop(index=0)
     solar_cal(서울)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(서울)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '세종':
     세종 = pd.read_csv('세종.csv', header=None, float_precision='round_trip')
     csv_conv = 세종.to_csv().encode('utf-8-sig')
-    st.dataframe(세종)
+    세종 = 세종.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    세종 = 세종.drop(index=0)
     solar_cal(세종)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.dataframe(세종)
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '충남':
     충남 = pd.read_csv('충남.csv', header=None, float_precision='round_trip')
     csv_conv = 충남.to_csv().encode('utf-8-sig')
+    충남 = 충남.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    충남 = 충남.drop(index=0)
     st.dataframe(충남)
-    solar_cal(충남)
-    if st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        st.success('저장이 완료 되었습니다!')
+    st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv')
 if choice == '충북':
     st.write('충청북도는 발전 설비가 없어 출력되지 않습니다.')
-    충북 = pd.read_csv('충북.csv', header=None, float_precision='round_trip')
+    # 충북 = pd.read_csv('충북.csv', header=None, float_precision='round_trip')
     # csv_conv = 충북.to_csv().encode('utf-8-sig')
     # st.dataframe(충북)
-    #if  st.download_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
-        # st.success('저장이 완료 되었습니다!')
-#==========================이미지 인식 부====================================
+    # solar_cal(충북)
+    # 충북 = 충북.rename(columns={0:'발전량(KW)', 1:'누적발전량(KWh)', 2:'일사량(W/㎡)', 3:'기온(℃)'})
+    # 충북 = 충북.drop(index=0)
+    #if  st.nload_button('표 데이터를 저장할 수 있습니다.',data=csv_conv,mime='text/csv'):
+       
+#=========================이미지 인식 부====================================
 st.write('')
 st.write('')
 st.write('')
